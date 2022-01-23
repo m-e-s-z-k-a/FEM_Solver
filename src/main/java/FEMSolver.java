@@ -250,6 +250,7 @@ public class FEMSolver {
         {
             sum += result[i]*getEi(i, x);
         }
+        sum += getEi(n, x);
         return sum;
     }
 
