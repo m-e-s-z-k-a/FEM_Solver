@@ -112,7 +112,7 @@ public class FEMSolver {
 
     public double getMatrixL(int i)
     {
-        return 5*getEi(i, 0) - gaussianQuadrature2(i) - getMatrixB(n, i); //czy to jest ok?? nie wiem
+        return 5*getEi(i, 0) - gaussianQuadrature2(i) - 2*getMatrixB(n, i); //czy to jest ok?? nie wiem
     }
 
 
@@ -250,7 +250,7 @@ public class FEMSolver {
         {
             sum += result[i]*getEi(i, x);
         }
-        sum += getEi(n, x);
+        sum += 2*getEi(n, x);
         return sum;
     }
 
