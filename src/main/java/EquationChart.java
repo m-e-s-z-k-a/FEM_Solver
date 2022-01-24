@@ -1,4 +1,3 @@
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -22,7 +21,7 @@ public class EquationChart {
         chart_series.getData().add(new XYChart.Data<>(x, y));
     }
 
-    public LineChart getChart()
+    public LineChart<Number, Number> getChart()
     {
         return equation_chart;
     }

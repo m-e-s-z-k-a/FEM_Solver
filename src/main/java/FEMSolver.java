@@ -1,7 +1,7 @@
 public class FEMSolver {
 
     public static int n;
-    public EquationChart equation_chart = new EquationChart("x","ϕ(x)");
+    public EquationChart equation_chart = new EquationChart("x","Phi(x)");
 
     public FEMSolver(int n)
     {
@@ -33,7 +33,7 @@ public class FEMSolver {
         return (float) (3*i)/ (float) FEMSolver.n;
     }
 
-    //szukanie poczatku 1-szej czesci Ei
+    //szukanie poczatku (number = 0)/konca (number = 1) 1-szej czesci Ei
     public float getEiLow(int i, int number)
     {
         if (number == 0 && i - 1>= 0)
@@ -47,7 +47,7 @@ public class FEMSolver {
         return Float.NEGATIVE_INFINITY;
     }
 
-    //szukanie poczatku 2-giej czesci Ei
+    //szukanie poczatku (number = 0)/konca (number = 1) 2-giej czesci Ei
     public float getEiHigh(int i, int number)
     {
         if (number == 0)
@@ -83,14 +83,14 @@ public class FEMSolver {
     }
 
 
-    //pochodna z ei(x)
+    //wyliczanie pochodnej z ei(x)
     public double getEiDerivative(int i, double x)
     {
-        if (x >= getXi(i-1) && x <= getXi(i) && i-1>=0)
+        if (x > getXi(i-1) && x < getXi(i) && i-1>=0)
         {
             return (float) 1/(getXi(i)-getXi(i-1));
         }
-        else if(x >= getXi(i) && x <= getXi(i+1)){
+        else if(x > getXi(i) && x < getXi(i+1)){
             return (float) (-1)/(getXi(i+1)-getXi(i));
         }
         else{
@@ -98,7 +98,7 @@ public class FEMSolver {
         }
     }
 
-    //szukanie przedizalow w ktorych przecinaja sie ei, ej zeby obliczyc calke
+    //szukanie przedzialow, w ktorych przecinaja sie ei, ej, zeby obliczyc calke w funkcji B
     public float getIntegral(int i, int j)
     {
         float result = 0;
@@ -109,11 +109,13 @@ public class FEMSolver {
         return result;
     }
 
+    //wyliczanie wartosci B(ei, ej)
     public double getMatrixB(int i, int j)
     {
         return getEi(i,0)*getEi(j, 0) - getIntegral(i, j);
     }
 
+    //wyliczanie wartosci L(ei)
     public double getMatrixL(int i)
     {
         return 5*getEi(i, 0) - gaussianQuadrature2(i) - 2*getMatrixB(n, i); //czy to jest ok?? nie wiem
@@ -167,26 +169,8 @@ public class FEMSolver {
         return result;
     }
 
-    //tutaj przymiarki do innego rozwiazania
-    public double gaussianQuadrature3(int a, int i)
-    {
-        double[] points = { -0.774597, 0,  0.774597};
-        double[] weights = { 0.555556,  0.888889, 0.555556};
-        double result = 0;
-        double x1 = getXi(i-1);
-        double x2 = getXi(i+1);
-        if (x1 < x2)
-        {
-            for (int index=0; index<3; index++)
-            {
-                result += weights[index]*a*getEiDerivative(i,  (((x2-x1)*0.5*points[index]) + 0.5*(x2+x1)));
-            }
-            result = result*(x2-x1)*0.5;
-        }
-        return result;
-    }
 
-    //liczenie calki dla funkcji B - metoda Gaussa-Legendre'a
+    //liczenie calki w funkcji B(ei, ej) - metoda Gaussa-Legendre'a
     public double gaussianQuadrature(int i, int j, float begin, float end)
     {
         float[] points = {(float) -0.774597, 0, (float) 0.774597};
@@ -206,7 +190,7 @@ public class FEMSolver {
     }
 
 
-    //obliczanie macierzy metoda eliminacji Gaussa
+    //obliczanie macierzy Phi metoda eliminacji Gaussa
     public double[] gaussianElimination(double[][] matrixB, double[] matrixL)
     {
         double[][] matrix = new double[FEMSolver.n][FEMSolver.n+1];
@@ -246,7 +230,7 @@ public class FEMSolver {
     }
 
 
-    //rownanie
+    //wyliczanie wartosci rownania
     public double countEquation(double[] result, float x)
     {
         double sum = 0;

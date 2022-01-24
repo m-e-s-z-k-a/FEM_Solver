@@ -17,10 +17,10 @@ public class WelcomeScreen extends VBox {
     public WelcomeScreen()
     {
         super();
-        title.setAlignment(Pos.CENTER);
         n_text.setFont(new Font("Comic Sans MS", 15));
         title.setFont(new Font("Comic Sans MS", 20));
         button.setFont(new Font("Comic Sans MS", 15));
+        title.setAlignment(Pos.CENTER);
         n_box.setAlignment(Pos.CENTER);
         button.setAlignment(Pos.CENTER);
         n_box.setSpacing(15);
