@@ -1,7 +1,7 @@
 public class FEMSolver {
 
     public static int n;
-    public EquationChart equation_chart = new EquationChart("x","u(x)");
+    public EquationChart equation_chart = new EquationChart("x","ϕ(x)");
 
     public FEMSolver(int n)
     {
@@ -64,13 +64,17 @@ public class FEMSolver {
     //wyliczanie ei(x)
     public double getEi(int i, double x)
     {
-        if (x >= getXi(i-1) && x <= getXi(i) && i-1>=0)
+        if (x > getXi(i-1) && x < getXi(i) && i-1>=0)
         {
             return (x-getXi(i-1))/(getXi(i)-getXi(i-1));
         }
-        else if(x >= getXi(i) && x <= getXi(i+1))
+        else if(x > getXi(i) && x < getXi(i+1) && i + 1 <= n)
         {
             return (getXi(i+1)-x)/(getXi(i+1)-getXi(i));
+        }
+        else if(x == getXi(i))
+        {
+            return 1;
         }
         else
         {

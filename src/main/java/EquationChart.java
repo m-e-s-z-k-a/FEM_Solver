@@ -14,6 +14,7 @@ public class EquationChart {
         x_axis.setLabel(x_axis_name);
         y_axis.setLabel(y_axis_name);
         equation_chart.getData().add(chart_series);
+        equation_chart.setLegendVisible(false);
     }
 
     public void addData(Number x, Number y)
